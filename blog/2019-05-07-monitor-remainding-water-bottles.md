@@ -48,53 +48,11 @@ I decided to make the scale myself and use a cheap **HX711** module from a chine
 
 I'll use ESPHome to program a WeMOS D1 Mini which is connected to the HX711.
 
-```yaml
-esphome:
-  name: water_bottles
-  platform: ESP8266
-  board: d1_mini
+:::info Source Code
+You can find the latest source code for this project [here](/docs/esphome/water-bottles#code).
+:::
 
-
-wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
-  power_save_mode: none
-
-  ap:
-    ssid: "water_bottles fallback hotspot"
-    password: !secret ap_fallback_password
-
-captive_portal:
-
-api:
-ota:
-logger:
-
-sensor:
-  - platform: hx711
-    name: "water_bottles_weight"
-    id: water_bottles_weight
-    dout_pin: D2
-    clk_pin: D1
-    gain: 128
-    update_interval: 60s
-    filters:
-      - calibrate_linear:
-          - 18595 -> 0
-          - -296403 -> 12840
-    unit_of_measurement: g
-
-  - platform: template
-    name: "water_bottles_count"
-    lambda: |-
-      auto n = floor(id(water_bottles_weight).state / 1000);
-      if (n > 0) return n;
-      return 0;
-    update_interval: 60s
-    accuracy_decimals: 0
-```
-
-Above, you see the code on how I programmed the scale. It sends the weight and the count to home assistant, where you only need to go to *Config > Integrations > ESPHome (Add)* and enter `water_bottles.local`. To get started with ESPHome, check out the [documentation](https://esphome.io/).
+The ESP sends the weight and the count to Home Assistant, where you only need to go to *Config > Integrations > ESPHome (Add)* and enter `water_bottles.local`. To get started with ESPHome, check out the [documentation](https://esphome.io/).
 
 Now, you can add automations as desired. My automation reminds me to buy new water if there are less than 4 bottles left:
 

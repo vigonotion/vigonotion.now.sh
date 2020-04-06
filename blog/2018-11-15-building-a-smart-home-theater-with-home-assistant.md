@@ -44,9 +44,9 @@ Upon inspecting my controller, I found out that there are two relays. One of the
 
 Later on, this device will switch on the relays when I want to move the screen. To implement this, I decided to use [esphome](https://esphome.io).
 
-### esphome
+### ESPHome
 
-[esphome](https://esphome.io) is a great library from [Otto Winter](https://github.com/OttoWinter/) and makes it easy to write sketches for hardware devices based on ESPs using *yaml*-files for integration with home assistant. 
+[ESPHome](https://esphome.io) is a great library from [Otto Winter](https://github.com/OttoWinter/) and makes it easy to write sketches for hardware devices based on ESPs using *yaml*-files for integration with home assistant. 
 
 To install esphome, visit the [official documentation](https://esphome.io/guides/getting_started_command_line.html).
 
@@ -54,99 +54,9 @@ Our controller acts like a garage door opener, and there is already a tutorial i
 
 In this sketch, the relays are switched off after 60 seconds. I'll use this to stop my screen when the aspect ratio is 16:9,  which, for me, was after 29.5 seconds.
 
-```yaml
-esphome:
-  name: my_screen
-  platform: ESP8266
-  board: esp01_1m
-  board_flash_mode: dout
-
-wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
-
-# Enable logging
-logger:
-
-ota:
-
-api:
-
-binary_sensor:
-  - platform: gpio
-    pin:
-      number: 10
-      inverted: true
-    id: button
-    on_press:
-      then:
-        # logic for cycling through movements: open->stop->close->stop->...
-        - lambda: |
-            if (id(cover).state == cover::COVER_OPEN) {
-              if (id(open).value){
-                // cover is in opening movement, stop it
-                id(cover).stop();
-              } else {
-                // cover has finished opening, close it
-                id(cover).close();
-              }
-            } else if (id(cover).state == cover::COVER_CLOSED) {
-              if (id(close).value){
-                // cover is in closing movement, stop it
-                id(cover).stop();
-              } else {
-                // cover has finished closing, open it
-                id(cover).open();
-              }
-            } else {
-              // state of cover is not known
-              if (id(open).value || id(close).value){
-                // cover is either opening or closing, stop it
-                id(cover).stop();
-              } else {
-                id(cover).open();
-              }
-            }
-
-switch:
-  - platform: gpio
-    pin: 5
-    id: open
-  - platform: gpio
-    pin: 12
-    id: close
-
-cover:
-  - platform: template
-    name: "My Screen"
-    id: cover
-    open_action:
-      # cancel potential previous movement
-      - switch.turn_off:
-          id: close
-      # perform movement
-      - switch.turn_on:
-          id: open
-      # wait until cover is open
-      - delay: 29.5s
-      # turn of relay to prevent keeping the motor powered
-      - switch.turn_off:
-          id: open
-    close_action:
-      - switch.turn_off:
-          id: open
-      - switch.turn_on:
-          id: close
-      - delay: 30s
-      - switch.turn_off:
-          id: close
-    stop_action:
-      - switch.turn_off:
-          id: open
-      - switch.turn_off:
-          id: close
-    optimistic: true
-```
+:::info Source Code
+You can find the latest source code for this project [here](/docs/esphome/cover-with-sonoff-dual#code).
+:::
 
 ### Flashing the sketch
 
