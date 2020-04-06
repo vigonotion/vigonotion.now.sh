@@ -1,0 +1,53 @@
+{
+    "routes": [
+        {
+        "src": "/blog/building-a-smart-home-theater-with-home-assistant",
+        "status": 308,
+        "headers": {
+            "Location": "/blog/2018/11/15/building-a-smart-home-theater-with-home-assistant"
+        }
+    },
+    {
+        "src": "/blog/making-the-windows-smart",
+        "status": 308,
+        "headers": {
+            "Location": "/blog/2018/12/13/making-the-windows-smart"
+        }
+    },
+    {
+        "src": "/blog/install-bitwarden-rs-on-uberspace",
+        "status": 308,
+        "headers": {
+            "Location": "/blog/2019/01/08/install-bitwarden-rs-on-uberspace"
+        }
+    },
+    {
+        "src": "/blog/cover-that-only-open-if-theres-nothing-in-its-way-in-home-assistant",
+        "status": 308,
+        "headers": {
+            "Location": "/blog/2019/03/08/cover-that-only-open-if-theres-nothing-in-its-way-in-home-assistant"
+        }
+    },
+    {
+        "src": "/blog/monitor-remainding-water-bottles",
+        "status": 308,
+        "headers": {
+            "Location": "/blog/2019/05/07/monitor-remaining-water-bottles"
+        }
+    },
+    {
+        "src": "/blog/alexa-connected-to-an-audio-receiver",
+        "status": 308,
+        "headers": {
+            "Location": "/blog/2019/07/16/alexa-connected-to-an-audio-receiver"
+        }
+    },
+    {
+        "src": "/blog/save-and-restore-light-states-using-home-assistant",
+        "status": 308,
+        "headers": {
+            "Location": "/blog/2019/12/27/save-and-restore-light-states-using-home-assistant"
+        }
+    },
+]
+}
